@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinoyoo.familyfunds.mapper.FundPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.sinoyoo.familyfunds.pojo.FundPlan" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="amount_goal" property="amountGoal" jdbcType="REAL" />
+    <result column="realize_goal" property="realizeGoal" jdbcType="REAL" />
+    <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="plan_type" property="planType" jdbcType="VARCHAR" />
+    <result column="plan_state" property="planState" jdbcType="INTEGER" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, amount_goal, realize_goal, begin_time, end_time, plan_type, plan_state, note
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sinoyoo.familyfunds.pojo.FundPlanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from fund_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fund_plan
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fund_plan
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sinoyoo.familyfunds.pojo.FundPlanExample" >
+    delete from fund_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sinoyoo.familyfunds.pojo.FundPlan" >
+    insert into fund_plan (id, amount_goal, realize_goal, 
+      begin_time, end_time, plan_type, 
+      plan_state, note)
+    values (#{id,jdbcType=VARCHAR}, #{amountGoal,jdbcType=REAL}, #{realizeGoal,jdbcType=REAL}, 
+      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{planType,jdbcType=VARCHAR}, 
+      #{planState,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sinoyoo.familyfunds.pojo.FundPlan" >
+    insert into fund_plan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="amountGoal != null" >
+        amount_goal,
+      </if>
+      <if test="realizeGoal != null" >
+        realize_goal,
+      </if>
+      <if test="beginTime != null" >
+        begin_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="planType != null" >
+        plan_type,
+      </if>
+      <if test="planState != null" >
+        plan_state,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="amountGoal != null" >
+        #{amountGoal,jdbcType=REAL},
+      </if>
+      <if test="realizeGoal != null" >
+        #{realizeGoal,jdbcType=REAL},
+      </if>
+      <if test="beginTime != null" >
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planType != null" >
+        #{planType,jdbcType=VARCHAR},
+      </if>
+      <if test="planState != null" >
+        #{planState,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sinoyoo.familyfunds.pojo.FundPlanExample" resultType="java.lang.Integer" >
+    select count(*) from fund_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update fund_plan
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amountGoal != null" >
+        amount_goal = #{record.amountGoal,jdbcType=REAL},
+      </if>
+      <if test="record.realizeGoal != null" >
+        realize_goal = #{record.realizeGoal,jdbcType=REAL},
+      </if>
+      <if test="record.beginTime != null" >
+        begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.planType != null" >
+        plan_type = #{record.planType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planState != null" >
+        plan_state = #{record.planState,jdbcType=INTEGER},
+      </if>
+      <if test="record.note != null" >
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update fund_plan
+    set id = #{record.id,jdbcType=VARCHAR},
+      amount_goal = #{record.amountGoal,jdbcType=REAL},
+      realize_goal = #{record.realizeGoal,jdbcType=REAL},
+      begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      plan_type = #{record.planType,jdbcType=VARCHAR},
+      plan_state = #{record.planState,jdbcType=INTEGER},
+      note = #{record.note,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sinoyoo.familyfunds.pojo.FundPlan" >
+    update fund_plan
+    <set >
+      <if test="amountGoal != null" >
+        amount_goal = #{amountGoal,jdbcType=REAL},
+      </if>
+      <if test="realizeGoal != null" >
+        realize_goal = #{realizeGoal,jdbcType=REAL},
+      </if>
+      <if test="beginTime != null" >
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planType != null" >
+        plan_type = #{planType,jdbcType=VARCHAR},
+      </if>
+      <if test="planState != null" >
+        plan_state = #{planState,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sinoyoo.familyfunds.pojo.FundPlan" >
+    update fund_plan
+    set amount_goal = #{amountGoal,jdbcType=REAL},
+      realize_goal = #{realizeGoal,jdbcType=REAL},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      plan_type = #{planType,jdbcType=VARCHAR},
+      plan_state = #{planState,jdbcType=INTEGER},
+      note = #{note,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 分页查询 -->
+   <select id="selectListByLimit" resultMap="BaseResultMap" parameterType="com.sinoyoo.familyfunds.vo.LimitQueryVO" >
+    select 
+    <include refid="Base_Column_List" />
+    from fund_plan
+    order by begin_time desc
+    limit #{startRecord},#{endRecord} 
+  </select>
+</mapper>

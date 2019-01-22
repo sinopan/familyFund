@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+ 
+ 	<!-- 配置@Controller扫描 -->
+ 	<context:component-scan base-package="com.sinoyoo.familyfunds.controller"/>
+ 	<context:component-scan base-package="com.sinoyoo.familyfunds.wechat.controller"/>
+ 	
+    <!-- 配置注解驱动（可以不配置，建议配置）:
+  		替我们显示的配置了最新版的注解的处理器映射器和处理器适配器 -->
+    <mvc:annotation-driven conversion-service="conversionService"/>
+    
+    <!-- 配置视图解析器 （可以不配置，建议配置）
+		作用:在controller中指定页面路径的时候就不用写页面的完整路径名称了,可以直接写页面去掉扩展名的名称
+	-->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 真正的页面路径 =  前缀 + 去掉后缀名的页面名称 + 后缀 -->
+		<!-- 前缀 -->
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+		<!-- 后缀 -->
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+    <!-- 
+    	如果在DispatcherServlet中设置url-pattern为 /则必须对静态资源进行访问处理。
+		spring mvc 的<mvc:resources mapping="" location="">实现对静态资源进行映射访问。
+     -->
+    <!-- 配置转换器后，将下面映射用默认servlet处理器代替的标签代替 -->
+    <!-- <mvc:resources location="/js/" mapping="/js/**"/>
+    <mvc:resources location="/css/" mapping="/css/**"/>
+    <mvc:resources location="/picture/" mapping="/picture/**"/> -->
+    <!-- 配置转换器后，将上述映射用下面的标签代替，不然会报错 -->
+    <mvc:default-servlet-handler/>
+    
+    
+    <!--拦截器 -->
+	<mvc:interceptors>
+		<!-- 多个拦截器,顺序执行 -->
+		<mvc:interceptor>
+			 <mvc:mapping path="/**"/>
+			 <!-- 需要对静态文件排除 -->
+	         <mvc:exclude-mapping path="/**/*.js"/>
+	         <mvc:exclude-mapping path="/**/*.png"/>
+	         <mvc:exclude-mapping path="/**/*.gif"/>
+	         <mvc:exclude-mapping path="/**/*.jpg"/>
+	         <mvc:exclude-mapping path="/**/*.css"/>
+			<bean class="com.sinoyoo.familyfunds.interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+ 
+    <!-- 自定义转换器配置 -->
+    <bean id="conversionService"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="com.sinoyoo.familyfunds.vonvert.DateConverter"/>
+			</set>
+		</property>
+	</bean>
+ </beans>

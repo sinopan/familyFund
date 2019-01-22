@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinoyoo.familyfunds.mapper.DepositeWithdrawMapper" >
+  <resultMap id="BaseResultMap" type="com.sinoyoo.familyfunds.pojo.DepositeWithdraw" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="exchange_amount" property="exchangeAmount" jdbcType="REAL" />
+    <result column="exchange_time" property="exchangeTime" jdbcType="TIMESTAMP" />
+    <result column="exchange_place" property="exchangePlace" jdbcType="VARCHAR" />
+    <result column="exchange_deatil" property="exchangeDeatil" jdbcType="VARCHAR" />
+    <result column="exchange_type" property="exchangeType" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="fund_plan_id" property="fundPlanId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, exchange_amount, exchange_time, exchange_place, exchange_deatil, exchange_type, 
+    user_id, fund_plan_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sinoyoo.familyfunds.pojo.DepositeWithdrawExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from deposite_withdraw
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from deposite_withdraw
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from deposite_withdraw
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sinoyoo.familyfunds.pojo.DepositeWithdrawExample" >
+    delete from deposite_withdraw
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sinoyoo.familyfunds.pojo.DepositeWithdraw" >
+    insert into deposite_withdraw (id, exchange_amount, exchange_time, 
+      exchange_place, exchange_deatil, exchange_type, 
+      user_id, fund_plan_id)
+    values (#{id,jdbcType=VARCHAR}, #{exchangeAmount,jdbcType=REAL}, #{exchangeTime,jdbcType=TIMESTAMP}, 
+      #{exchangePlace,jdbcType=VARCHAR}, #{exchangeDeatil,jdbcType=VARCHAR}, #{exchangeType,jdbcType=INTEGER}, 
+      #{userId,jdbcType=VARCHAR}, #{fundPlanId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sinoyoo.familyfunds.pojo.DepositeWithdraw" >
+    insert into deposite_withdraw
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="exchangeAmount != null" >
+        exchange_amount,
+      </if>
+      <if test="exchangeTime != null" >
+        exchange_time,
+      </if>
+      <if test="exchangePlace != null" >
+        exchange_place,
+      </if>
+      <if test="exchangeDeatil != null" >
+        exchange_deatil,
+      </if>
+      <if test="exchangeType != null" >
+        exchange_type,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="fundPlanId != null" >
+        fund_plan_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeAmount != null" >
+        #{exchangeAmount,jdbcType=REAL},
+      </if>
+      <if test="exchangeTime != null" >
+        #{exchangeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exchangePlace != null" >
+        #{exchangePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeDeatil != null" >
+        #{exchangeDeatil,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeType != null" >
+        #{exchangeType,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="fundPlanId != null" >
+        #{fundPlanId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sinoyoo.familyfunds.pojo.DepositeWithdrawExample" resultType="java.lang.Integer" >
+    select count(*) from deposite_withdraw
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update deposite_withdraw
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exchangeAmount != null" >
+        exchange_amount = #{record.exchangeAmount,jdbcType=REAL},
+      </if>
+      <if test="record.exchangeTime != null" >
+        exchange_time = #{record.exchangeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.exchangePlace != null" >
+        exchange_place = #{record.exchangePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exchangeDeatil != null" >
+        exchange_deatil = #{record.exchangeDeatil,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exchangeType != null" >
+        exchange_type = #{record.exchangeType,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fundPlanId != null" >
+        fund_plan_id = #{record.fundPlanId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update deposite_withdraw
+    set id = #{record.id,jdbcType=VARCHAR},
+      exchange_amount = #{record.exchangeAmount,jdbcType=REAL},
+      exchange_time = #{record.exchangeTime,jdbcType=TIMESTAMP},
+      exchange_place = #{record.exchangePlace,jdbcType=VARCHAR},
+      exchange_deatil = #{record.exchangeDeatil,jdbcType=VARCHAR},
+      exchange_type = #{record.exchangeType,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      fund_plan_id = #{record.fundPlanId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sinoyoo.familyfunds.pojo.DepositeWithdraw" >
+    update deposite_withdraw
+    <set >
+      <if test="exchangeAmount != null" >
+        exchange_amount = #{exchangeAmount,jdbcType=REAL},
+      </if>
+      <if test="exchangeTime != null" >
+        exchange_time = #{exchangeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exchangePlace != null" >
+        exchange_place = #{exchangePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeDeatil != null" >
+        exchange_deatil = #{exchangeDeatil,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeType != null" >
+        exchange_type = #{exchangeType,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="fundPlanId != null" >
+        fund_plan_id = #{fundPlanId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sinoyoo.familyfunds.pojo.DepositeWithdraw" >
+    update deposite_withdraw
+    set exchange_amount = #{exchangeAmount,jdbcType=REAL},
+      exchange_time = #{exchangeTime,jdbcType=TIMESTAMP},
+      exchange_place = #{exchangePlace,jdbcType=VARCHAR},
+      exchange_deatil = #{exchangeDeatil,jdbcType=VARCHAR},
+      exchange_type = #{exchangeType,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=VARCHAR},
+      fund_plan_id = #{fundPlanId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+    
+  <!-- 编写分页 -->
+   <select id="selectListByLimit" resultMap="BaseResultMap" parameterType="com.sinoyoo.familyfunds.vo.LimitQueryVO" >
+    select 
+    <include refid="Base_Column_List" />
+    from deposite_withdraw
+    limit #{startRecord},#{endRecord}
+  </select>  
+  <!-- 收支图表展示 -->
+  <select id="selectDepositeWithdrawGroupByVOList" 
+  			parameterType="com.sinoyoo.familyfunds.pojo.DepositeWithdrawChartPO"
+  			resultType="com.sinoyoo.familyfunds.vo.DepositeWithdrawChartVO" >
+    select sum(exchange_amount) amount, user_id,fund_plan_id consumationType 
+    from deposite_withdraw
+    where exchange_time between #{minDate} and #{maxDate}
+	and exchange_type = #{exchangeType}
+    group by fund_plan_id
+  </select>
+</mapper>
